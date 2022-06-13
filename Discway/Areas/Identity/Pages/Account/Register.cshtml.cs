@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TagHelper = Discway.Utility.Helpers.TagHelper;
 
 namespace Discway.Areas.Identity.Pages.Account
 {
@@ -121,7 +122,7 @@ namespace Discway.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                var tag = QrCodeHelper.CreateTag(_discwayContext);
+                var tag = TagHelper.CreateTag(_discwayContext);
                 user.TagId = tag.Id;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

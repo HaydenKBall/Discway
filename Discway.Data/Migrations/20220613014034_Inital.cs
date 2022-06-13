@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Discway.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace Discway.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AdminId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Course = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     TotalPlayers = table.Column<int>(type: "int", nullable: false)
                 },
@@ -48,37 +48,6 @@ namespace Discway.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tag", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    About = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
-                    PdgaNum = table.Column<int>(type: "int", maxLength: 10, nullable: true),
-                    UDiscUserName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    GlobalRank = table.Column<string>(name: "Global Rank", type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,6 +86,44 @@ namespace Discway.Data.Migrations
                         name: "FK_RoleClaim_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    About = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
+                    PdgaNum = table.Column<int>(type: "int", maxLength: 10, nullable: true),
+                    UDiscUserName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    GlobalRank = table.Column<string>(name: "Global Rank", type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    TagId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -224,6 +231,11 @@ namespace Discway.Data.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_TagId",
+                table: "User",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "User",
                 column: "NormalizedUserName",
@@ -257,9 +269,6 @@ namespace Discway.Data.Migrations
                 name: "RoleClaim");
 
             migrationBuilder.DropTable(
-                name: "Tag");
-
-            migrationBuilder.DropTable(
                 name: "UserClaim");
 
             migrationBuilder.DropTable(
@@ -282,6 +291,9 @@ namespace Discway.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
         }
     }
 }

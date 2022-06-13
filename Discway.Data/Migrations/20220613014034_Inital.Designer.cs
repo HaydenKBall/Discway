@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Discway.Data.Migrations
 {
     [DbContext(typeof(DiscwayContext))]
-    [Migration("20220609034541_initial")]
-    partial class initial
+    [Migration("20220613014034_Inital")]
+    partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,7 @@ namespace Discway.Data.Migrations
                     b.Property<string>("AdminId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("UserId");
+                        .HasColumnName("AdminId");
 
                     b.Property<string>("Course")
                         .IsRequired()
@@ -142,6 +142,10 @@ namespace Discway.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TagId");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -163,6 +167,8 @@ namespace Discway.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("User", (string)null);
                 });
@@ -325,6 +331,17 @@ namespace Discway.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserToken", (string)null);
+                });
+
+            modelBuilder.Entity("Discway.Data.Dto.User", b =>
+                {
+                    b.HasOne("Discway.Data.Dto.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Discway.Data.Dto.UserLeague", b =>

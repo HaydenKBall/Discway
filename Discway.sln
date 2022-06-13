@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discway", "DISCway\Discway.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discway.Data", "DISCway.Data\Discway.Data.csproj", "{5613E40E-FB67-4229-92D4-9F8C269BE9D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discway.Utility", "Discway.Utility\Discway.Utility.csproj", "{C86234CB-EEB8-4D61-8477-523AF49B488A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discway.Utility", "Discway.Utility\Discway.Utility.csproj", "{C86234CB-EEB8-4D61-8477-523AF49B488A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

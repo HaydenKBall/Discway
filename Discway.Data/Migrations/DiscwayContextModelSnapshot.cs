@@ -32,7 +32,7 @@ namespace Discway.Data.Migrations
                     b.Property<string>("AdminId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("UserId");
+                        .HasColumnName("AdminId");
 
                     b.Property<string>("Course")
                         .IsRequired()

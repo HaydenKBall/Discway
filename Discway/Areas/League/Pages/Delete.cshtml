@@ -1,0 +1,16 @@
+﻿@page
+@model Discway.Areas.League.Pages.DeleteModel
+@{
+}
+
+<h1>Delete league</h1>
+
+<p>Are you sure you want to delete this league? Any and all players associated to the league will no longer have access.</p>
+
+<b>Course: </b>@Model.League.Course
+<b>Total players: </b>@Model.League.TotalPlayers
+
+<form method="post">
+    <input asp-for="League.Id" />
+    <input type="submit"/>
+</form>

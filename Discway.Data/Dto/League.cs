@@ -12,7 +12,7 @@ public class League
     public Guid Id { get; set; }
 
     [Required]
-    [Column("UserId", TypeName = "nvarchar(450)")] // Specified 450 because of Identity defaults
+    [Column("AdminId", TypeName = "nvarchar(450)")] // Specified 450 because of Identity defaults
     public string AdminId { get; set; } // The owner of the league 
 
     [Required]
